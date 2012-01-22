@@ -1,0 +1,37 @@
+<% @verifikasis.each do |verifikasi| %>
+  <tr>
+    <%if @show_bt_upload %>
+      <td>
+        <input type="checkbox" name="check_box[]" value="<%= verifikasi.kode%>" class="child_check_box"/>
+      </td>
+    <%end%>
+    <td><%= verifikasi.kode %></td>
+    <td><%= l(verifikasi.tgl_keluar.to_time, :format => :ind) rescue '-' %></td>
+    <td><%= verifikasi.no_kk %></td>
+    <td><%= verifikasi.nik %></td>
+    <td><%= verifikasi.ktp %></td>
+    <td><%= verifikasi.instalasi_layanan.nama rescue '' %></td>
+    <td><%= verifikasi.status_verifikasi_text %></td>
+    <td><%= link_to 'Lihat', verifikasi %></td>
+    <td>
+      <% if verifikasi.status_verifikasi == 1 %>
+      <%else%>
+        <%= link_to 'Ubah', :controller => :verifikasis, :action => :edit, :id => verifikasi.id rescue '' %>
+      <%end%>
+    </td>
+  </tr>
+<% end %>
+
+  <tr style="background-color: transparent">
+    <td colspan="100">
+      <div class="digg_pagination">
+        <div class="page_info">
+          <%= raw page_entries_info @verifikasis %>
+        </div>
+        <%= will_paginate @verifikasis, :class => 'pagination ajax' %>
+      </div>
+    </td>
+  </tr>
+  <script type="text/javascript">
+    ajaxifyPagination();
+  </script>

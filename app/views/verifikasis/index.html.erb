@@ -1,0 +1,72 @@
+<script type="text/javascript">
+  $(document).ready(function() {
+      $( "#tgl_keluar" ).datepicker( { dateFormat: 'dd-mm-yy', changeMonth: true, changeYear: true, showOtherMonths: true, selectOtherMonths: true } );
+  });
+</script>
+
+<h1>Data Verifikasi</h1>
+
+<%= form_for(:verifikasis, :url => {:action => :sent_to_vi, :id => "new"},
+                :html => {:id => "kirim_data_to_vi", :class => "simple_form"}) do %>
+<table>
+  <tr>
+    <%if @show_bt_upload %>
+      <th></th>
+    <%end%>
+    <th>Kode</th>
+    <th>Tanggal keluar</th>
+    <th>No. KK</th>
+    <th>No. NIK</th>
+    <th>No. KTP</th>
+    <th>Poli</th>
+    <th>Status</th>
+    <th></th>
+    <th></th>
+  </tr>
+
+  <tr>
+    <%if @show_bt_upload %>
+       <td style="text-align: left">
+        <input type="checkbox" id="master_check_box" onclick="check_box_toggle_class(this, 'child_check_box')"/>
+      </td>
+    <%end%>
+    <td>
+      <input type="text" size="7" onkeyup="searching(this.value, 'kode')"/>
+    </td>
+    <td>
+      <input type="text" size="7" id="tgl_keluar" onkeyup="searching(this.value, 'tgl_keluar'" onchange="searching(this.value, 'tgl_keluar')"/>
+    </td>
+    <td colspan="7"></td>
+  </tr>
+
+  <tbody id="data_ajax_target">
+    <%= render :partial => "verifikasis/data_index", :locals => {:verifikasis => @verifikasis} %>
+  </tbody>
+</table>
+
+<%end%>
+
+<%#= link_to 'New Verifikasi', new_verifikasi_path %>
+
+<script type="text/javascript">
+  function searching(text, tipe){
+    jQuery.ajax({
+      url: "/verifikasis/index/<%= params[:id] %>",
+      dataType: "script",// "json",
+      data: {
+        authenticity_token: encodeURIComponent('<%= u form_authenticity_token %>'),
+        param: text,
+        tipe: tipe
+      },
+      beforeSend: function(data) {
+        jQuery('#loading_body').toggle();
+      },
+      success: function(data) {
+        //jQuery('#data').html(data);
+      },
+      complete: function(data) {
+        jQuery('#loading_body').toggle();
+      }
+    });
+  }
+</script>

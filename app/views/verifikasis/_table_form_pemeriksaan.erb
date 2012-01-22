@@ -1,0 +1,94 @@
+<%
+
+  if (verifikasi_pemeriksaan.id.nil? rescue true)
+    verifikasi_pemeriksaan = VerifikasiPemeriksaan.new
+  else
+    @verifikasi_pemeriksaan = verifikasi_pemeriksaan
+    #@verifikasi = @verifikasi_pemeriksaan.kode_verifikasi
+  end
+%>
+<tr id="tr_<%= no  %>">
+  <td>
+    <%= no %>
+  </td>
+    <%if controller.action_name == "show" %>
+      <td>
+        <%= @verifikasi_pemeriksaan.pemeriksaan.nama rescue ''  %>
+      </td>
+      <td>
+        <%= @verifikasi_pemeriksaan.jumlah rescue '-'  %>
+      </td>
+    <%else%>
+      <td>
+        <%= hidden_field "verifikasi_pemeriksaan#{no}", :kode, :value => (@verifikasi_pemeriksaan.kode rescue ''),
+          :class => "", :size => 1 %>
+        <%= collection_select "verifikasi_pemeriksaan#{no}",:kode_pemeriksaan, Pemeriksaan.where("flag = 2").order("kode"), :kode, :nama, {:prompt => true, :selected => (@verifikasi_pemeriksaan.kode_pemeriksaan rescue '') },
+          :class => "required number", :style => "width: 320px"%>
+      </td>
+      <td>
+        <%= text_field "verifikasi_pemeriksaan#{no}", :jumlah, :value => (@verifikasi_pemeriksaan.jumlah rescue ''),
+          :size => 10, :class => "required number" %>
+      </td>
+    <%end%>
+  <%if (status_verifikasi > 0 rescue false)%>
+      <td>
+        <%= @verifikasi_pemeriksaan.status_verifikasi %>
+      </td>
+      <td>
+        <% a = @verifikasi_pemeriksaan.alasan_verifikasi.alasan rescue "-"%>
+        <%
+          if a.length > 10
+            cut = a[0..10]+"..."
+          else
+            cut = a
+          end
+        %>
+        <label title="<%= a %>"><%= cut %></label>
+      </td>
+      <td>
+        <% a = @verifikasi_pemeriksaan.komentar.to_s rescue "-"%>
+        <% 
+          if a.length > 10
+            cut = a[0..10]+"..."
+          else
+            cut = a
+          end
+        %>
+        <label title="<%= a %>"><%= cut %></label>
+      </td>
+    <%else%>
+      <td>
+        -
+      </td>
+      <td>
+        -
+      </td>
+      <td>
+        -
+      </td>
+    <%end%>
+  <%unless controller.action_name == "show" %>
+    <td>
+    <%if @is_show %>
+    <%else%>
+
+    <% if (@verifikasi_pemeriksaan.id.nil? rescue true)%>
+      <%= link_to (image_tag 'delete.png', :style => "width: 20px", :title => "Hapus"), "",
+             :onclick => "var r=confirm('Apakah anda yakin untuk menghapus item ini?'); if (r==true){jQuery('#tr_#{no}').remove();return false;}else{return false;}" %>
+    <%else%>
+      <%= link_to (image_tag 'delete.png', :style => "width: 20px", :title => "Hapus"),
+                "/penerimaan_details/destroy/#{@verifikasi_pemeriksaan.id}?no=#{no}",
+                 :confirm => "Apakah anda yakin untuk menghapus item ini?", :remote => true, :onclick => "ajax_call_back(this); $('counter').value = $('counter').value - 1;" %>
+    <%end%>
+    <span style="display: none" id="loading<%=no%>"><%= image_tag 'loading.gif' %></span>
+    <%end%>
+  </td>
+  <%end%>
+ 
+    <%#= text_field "verifikasi_pemeriksaan#{no}", :jumlah, :value => (@verifikasi_pemeriksaan.jumlah rescue ''),
+      :size => 8 %>
+
+    <%#= hidden_field "verifikasi_pemeriksaan#{no}", :jumlah, :value => (@verifikasi_pemeriksaan.jumlah rescue ''),
+      :size => 8, :class => "" %>
+  
+  </tr>

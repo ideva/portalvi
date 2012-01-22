@@ -1,0 +1,121 @@
+<%= form_for(@blog, :html => { :name => "form_#{controller.controller_name}", :id => "form_#{controller.controller_name}", :multipart => true  }) do |f| %>
+  <% if @blog.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@blog.errors.count, "error") %> prohibited this blog from being saved:</h2>
+
+      <ul>
+      <% @blog.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :body %>
+    <%= f.text_area :body %>
+  </div>
+  <div class="field">
+
+    <% unless @blog.attachment.nil? %>
+      <%= f.label :attachment, "Attached Document" %>
+      <%= link_to @blog.attachment.to_s, @blog.attachment.url %>
+      <span style="cursor: pointer" class="as_link" onclick="Effect.toggle('attach','Blind', {duration:1}); return false;">Change document</span>
+    <%else%>
+      <%= f.label :attachment, "Attach Document" %>
+    <%end%>
+    <%
+      if @blog.attachment.nil?
+        style = "display:block;"
+      else
+        style = "display:none;"
+      end
+    %>
+
+    <div style="<%= style %>" id="attach">
+      <%= f.file_field :attachment %>
+      <br/>
+      Document format: doc, pdf
+    </div>
+  </div>
+  <div class="field">
+    <%= f.label :idpage, "Page" %>
+    <%= f.collection_select(:idpage, Page.all, :id, :name, {:promt => true},
+          {:style => "", :class => "combo_box"}) %>
+  </div>
+  <div class="field">
+    <%= f.label :is_publish, "Status" %>
+    <%= f.check_box :is_publish %> Published
+  </div>
+  <div class="field">
+    <%= f.label :meta_description %>
+    <%= f.text_area :meta_description %>
+  </div>
+  <div class="field">
+    <%= f.label :meta_keyword %>
+    <%= f.text_field :meta_keyword %>
+  </div>
+ 
+  <!--<div class="field">
+    <%= f.label :use_image_slide %>
+    <%= f.check_box :use_image_slide %> Yes
+  </div>-->
+  <div class="actions">
+    <%= f.submit "Save", :class => "as_button" %>
+  </div>
+<% end %>
+
+<%
+  album_gallery = AlbumGallery.find_by_name_and_iduser("Article Image",current_user.id)
+%>
+  <script type="text/javascript">
+    var authenticity_token = encodeURIComponent('<%=   form_authenticity_token if protect_against_forgery? %>');
+    var model = 'ArticleGallery';
+    //var fileUrl = '/<%=current_user.to_param%>/gallery/<%=current_user.id%>?type=Images'
+    var editor = CKEDITOR.replace( 'blog_body',{
+      toolbar :
+                [
+    ['Source','-','Templates'],
+    ['Cut','Copy','Paste','PasteText','PasteFromWord','-','Print', 'SpellChecker', 'Scayt'],
+
+    ['Find','Replace','-','SelectAll','RemoveFormat'],
+    ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'HiddenField'],
+    '/'
+    ['Table','HorizontalRule','Smiley','SpecialChar','PageBreak'],
+    '/',
+    ['NumberedList','BulletedList','-','Outdent','Indent','Blockquote','CreateDiv'],['BidiLtr', 'BidiRtl' ],
+
+    ['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','Bold','Italic','Underline','Strike','-','Subscript','Superscript', '-','Undo','Redo'],
+    '/',
+    ['Styles','Format','Font','FontSize','button-pre'],
+    '/',
+    ['Image','MediaEmbed','Flash'],['TextColor','BGColor'], ['Link','Unlink','Anchor'],['Maximize', 'ShowBlocks','-','About']
+],
+
+      filebrowserBrowseUrl : '/galleries/article_image/<%=album_gallery.id%>',
+      filebrowserImageBrowseLinkUrl : '/galleries/article_image/<%=album_gallery.id%>?type=Images',
+      filebrowserImageWindowWidth : '700',
+      filebrowserImageWindowHeight : '500',
+      filebrowserWindowFeatures : 'resizable=yes,scrollbars=no',
+      //filebrowserBrowseUrl : {
+      //  filebrowser :{
+      //    params : { type : 'Images', currentFolder : '/<%=current_user.to_param%>/gallery/<%=current_user.id%>' }
+      //  }
+      //},
+      filebrowserUploadUrl : '/general/upload_photo_from_ckeditor?type=Images&model='+model,
+      filebrowserImageUploadUrl : '/general/upload_photo_from_ckeditor?type=Images&authenticity_token='+authenticity_token+'&model='+model+'&iduser=<%=current_user.id%>',
+      uiColor : '#ecfae6',
+      height: '450px',
+      //width: '480px',
+      extraPlugins : 'MediaEmbed',
+      extraPlugins : 'button-pre',
+      startupOutlineBlocks : true
+
+
+    } );
+
+  </script>

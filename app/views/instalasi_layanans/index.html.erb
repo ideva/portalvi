@@ -1,0 +1,17 @@
+<h1>Data Instalasi Layanan</h1>
+
+<table>
+  <tr>
+    <th>Kode</th>
+    <th>Nama</th>
+    <th></th>
+  </tr>
+
+<% @instalasi_layanans.each do |instalasi_layanan| %>
+  <tr>
+    <td><%= instalasi_layanan.kode %></td>
+    <td><%= instalasi_layanan.nama %></td>
+    <td><%= link_to 'Ubah/Hapus', edit_instalasi_layanan_path(instalasi_layanan) %></td>
+  </tr>
+<% end %>
+</table>

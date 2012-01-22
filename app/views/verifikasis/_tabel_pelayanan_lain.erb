@@ -1,0 +1,83 @@
+<div style="overflow: auto; border: 1px solid black;-moz-box-shadow: 0 0 5px #888; -webkit-box-shadow: 0 0 5px#888; box-shadow: 0 0 5px #888;">
+
+<table style="text-align: center">
+  <tr>
+    <th style="width : 25px" >No</th>
+    <th>Tanggal</th>
+    <th>Nama</th>
+    <th>Jumlah Tindakan</th>
+    <th>Harga Satuan</th>
+    <th>Status Verifikasi</th>
+    <th>Alasan</th>
+    <th>Komentar</th>
+    <%unless controller.action_name == "show" %>
+      <th></th>
+    <%end%>
+  </tr>
+  <% if (kode_verifikasi.nil? rescue true) %>
+     <%
+          @counter_pelayanan_lain = 0
+          row = 1
+          for i in 1..row do
+          verifikasi_pelayanan_lain = VerifikasiPelayananLain.new
+          #verifikasi_pelayanan_lain.kode_t_medis_rs = nil
+          #verifikasi_pemeriksaan.jumlah = nil
+          @counter_pelayanan_lain = @counter_pelayanan_lain + 1
+        %>
+          <%= render :partial => "verifikasis/table_form_pelayanan_lain", :locals => {:no => @counter_pelayanan_lain, :verifikasi_pelayanan_lain => verifikasi_pelayanan_lain} %>
+       <%end%>
+  <%else%>
+        <%
+          @counter_pelayanan_lain = 0
+          verifikasi_pelayanan_lains = VerifikasiPelayananLain.where(:kode_verifikasi => kode_verifikasi)
+          verifikasi_pelayanan_lains.each do |verifikasi_pelayanan_lain|
+          @counter_pelayanan_lain = @counter_pelayanan_lain + 1
+        %>
+          <%= render :partial => "verifikasis/table_form_pelayanan_lain", :locals => {:no => @counter_pelayanan_lain, :verifikasi_pelayanan_lain => verifikasi_pelayanan_lain, :status_verifikasi => status_verifikasi} %>
+        <%end%>
+  <%end%>
+
+      <tr id="new_baris_pelayanan_lain">
+        <% if (verifikasi_pelayanan_lains.empty? rescue false) %>
+          <td colspan="1000">Data tidak tersedia</td>
+        <%end%>
+      </tr>
+</table>
+
+  <input type="hidden" id="counter_pelayanan_lain" name="counter_pelayanan_lain" value="<%= @counter_pelayanan_lain rescue 1 %>"/>
+
+  </div>
+<%unless controller.action_name == "show" %>
+  <div style="cursor: pointer; width: 110px; margin: 10px;" onclick="tambah_baris_pelayanan_lain()" class="button">
+  <div style="float: left; margin-right: 5px">
+    <%= image_tag 'add.png', :style => "width: 20px", :title => "Tambah Baris" %>
+  </div>
+  <div style="float: left; padding-top: 3px">
+    Tambah Baris
+  </div>
+  <div style="clear: both"></div>
+</div>
+<%end%>
+<script type="text/javascript">
+  function tambah_baris_pelayanan_lain(){
+    $.ajax({
+      url: "/verifikasis/add_new_list_pelayanan_lain/new",
+      dataType: "text",// "text/script/json",
+      data: {
+        authenticity_token: encodeURIComponent('<%= u form_authenticity_token %>'),
+        counter_pelayanan_lain: $('#counter_pelayanan_lain').val()
+      },
+      beforeSend: function(data) {
+        jQuery('#loading_body').toggle();
+      },
+      success: function(data) {
+        $(data).insertBefore('#new_baris_pelayanan_lain');
+        $('#counter_pelayanan_lain').val( parseInt($('#counter_pelayanan_lain').val()) + 1 );
+        make_table_tr_color();
+      },
+      complete: function(data) {
+        jQuery('#loading_body').toggle();
+      }
+    });
+  }
+</script>

@@ -1,0 +1,42 @@
+<%= form_for(@page, :html => { :name => "form_#{controller.controller_name}", :id => "form_#{controller.controller_name}" }) do |f| %>
+  <% if @page.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@page.errors.count, "error") %> prohibited this page from being saved:</h2>
+
+      <ul>
+      <% @page.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+   <div class="field">
+    <%= f.label :flash_news %>
+    <%= f.text_area :flash_news, :class => "text_area" %>
+  </div>  
+  <div class="field">
+    <%= f.label :parent_page %>
+    <%= f.collection_select(:parent_page, Page.all, :id, :name, {:include_blank => 'None'},
+          {:style => "", :class => "combo_box"}) %>
+  </div>
+  <div class="field">
+    <%= f.label :is_active, "Status" %>
+    <%= f.check_box :is_active %> Active
+  </div>
+  <div class="field">
+    <%= f.label :is_home_page, "Home Page" %>
+    <%= f.check_box :is_home_page %> Make it as home page
+  </div>
+  <div class="field">
+    <%= f.label :order_page %>
+    <%= f.text_field :order_page %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Save", :class => "as_button" %>
+  </div>
+<% end %>

@@ -1,0 +1,23 @@
+<h1>Listing f_user_levels</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @f_user_levels.each do |f_user_level| %>
+  <tr>
+    <td><%= f_user_level.name %></td>
+    <td><%= link_to 'Show', f_user_level %></td>
+    <td><%= link_to 'Edit', edit_f_user_level_path(f_user_level) %></td>
+    <td><%= link_to 'Destroy', f_user_level, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New F user level', new_f_user_level_path %>

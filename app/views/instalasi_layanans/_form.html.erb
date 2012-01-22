@@ -1,0 +1,21 @@
+<%= form_for(@instalasi_layanan) do |f| %>
+  <% if @instalasi_layanan.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@instalasi_layanan.errors.count, "error") %> prohibited this instalasi_layanan from being saved:</h2>
+
+      <ul>
+      <% @instalasi_layanan.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :nama, :class => "required" %><br />
+    <%= f.text_field :nama, :class => "required" %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

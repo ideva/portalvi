@@ -1,0 +1,21 @@
+<br/><h1>Data Laporan <%= @nama_laporan  %> </h1>
+
+<table>
+  <tr>
+    <th>Pelayanan</th>
+    <th>Jumlah Pasien</th>
+    <th>Lama Rawat</th>
+    <th>Total Tarif</th>
+  </tr>
+
+  <% @laporans.each do |laporan| %>
+  <tr>
+    <td><%= laporan["Pelayanan"] %></td>
+    <td><%= laporan["Jumlah Pasien"] %></td>
+    <td><%= laporan["Lama Rawat"] %></td>
+    <td><%= laporan["Total Tarif"] %></td>
+  </tr>
+  
+<% end %>
+
+</table>

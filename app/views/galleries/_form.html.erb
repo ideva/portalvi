@@ -1,0 +1,2 @@
+<% object_photos = Gallery.where(:idproduct => (@product.id.to_s rescue '') ).order("image_order") %>
+<%= render :partial => 'general/upload_module', :locals => {:model => Gallery, :param_name => "idproduct", :param_id => @product.id, :object_photos => object_photos} %>

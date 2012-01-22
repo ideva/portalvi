@@ -1,0 +1,31 @@
+<h1>Listing pages</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Status</th>
+    <th>Parent page</th>
+    <th>As home page</th>
+    <th>Order page</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @pages.each do |page| %>
+  <tr>
+    <td><%= page.name %></td>
+    <td><%= page.is_active %></td>
+    <td><%= page.parent_page %></td>
+    <td><%= page.is_home_page %></td>
+    <td><%= page.order_page %></td>
+    <td><%= link_to 'Article', :controller => :blogs, :action => :index_blog_by_page, :id => page.id %></td>
+    <td><%= link_to 'Edit', edit_page_path(page) %></td>
+    <td><%= link_to 'Destroy', page, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Page', new_page_path %>

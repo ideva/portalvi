@@ -1,0 +1,123 @@
+
+<% if (logged_in? rescue false)%>
+
+<div style="float: left" class="nav_horizontal">
+          <ul>
+            <li><span>Data Master</span>
+              <ul>
+                <li><span>Kategori Tindakan Medis</span>
+                  <ul>
+                    <li><%= link_to 'Buat Baru', new_kategori_tindakan_medi_path %></li>
+                    <li><%= link_to 'Manajemen Data', :controller => :kategori_tindakan_medis %></li>
+                  </ul>
+                </li>
+                <li><span>Tindakan Medis</span>
+                  <ul>
+                    <li><%= link_to 'Buat Baru', new_tindakan_medi_path %></li>
+                    <li><%= link_to 'Manajemen Data', :controller => :tindakan_medis %></li>
+                  </ul>
+                </li>
+                <li><span>Kategori Tindakan Penunjang</span>
+                  <ul>
+                    <li><%= link_to 'Buat Baru', new_kategori_tindakan_penunjang_path %></li>
+                    <li><%= link_to 'Manajemen Data', :controller => :kategori_tindakan_penunjangs %></li>
+                  </ul>
+                </li>
+                <li><span>Tindakan Penunjang</span>
+                  <ul>
+                    <li><%= link_to 'Buat Baru', new_tindakan_penunjang_path %></li>
+                    <li><%= link_to 'Manajemen Data', :controller => :tindakan_penunjangs %></li>
+                  </ul>
+                </li>
+                <li><span>Paket Pemeriksaan</span>
+                  <ul>
+                    <li><%= link_to 'Buat Baru', new_pemeriksaan_path %></li>
+                    <li><%= link_to 'Manajemen Data', :controller => :pemeriksaans %></li>
+                  </ul>
+                </li>
+                <li><span>Kategori Obat</span>
+                  <ul>
+                    <li><%= link_to 'Buat Baru', new_kategori_obat_path %></li>
+                    <li><%= link_to 'Manajemen Data', :controller => :kategori_obats %></li>
+                  </ul>
+                </li>
+                <li><span>Obat</span>
+                  <ul>
+                    <li><%= link_to 'Buat Baru', new_obat_path %></li>
+                    <li><%= link_to 'Manajemen Data', :controller => :obats %></li>
+                  </ul>
+                </li>
+                <li><span>Instalasi Layanan</span>
+                  <ul>
+                    <li><%= link_to 'Buat Baru', new_instalasi_layanan_path %></li>
+                    <li><%= link_to 'Manajemen Data', :controller => :instalasi_layanans %></li>
+                  </ul>
+                </li>
+                <li><span>Dokter</span>
+                  <ul>
+                    <li><%= link_to 'Buat Baru', new_dokter_path %></li>
+                    <li><%= link_to 'Manajemen Data', :controller => :dokters %></li>
+                  </ul>
+                </li>
+                <!--<li><span>Kabupaten</span>
+                  <ul>
+                    <li><%#= link_to 'Buat Baru', new_kabupaten_path %></li>
+                    <li><%#= link_to 'Manajemen Data', :controller => :kabupatens %></li>
+                  </ul>
+                </li>-->
+              </ul>
+            </li>
+            <li><span>Peserta JKBM</span>
+              <ul>
+                <%
+                  jumlah_data_baru = Verifikasi.where(:status_pengiriman => 0).count
+                  jumlah_siap_kirim = Verifikasi.where(:status_pengiriman => 1).count
+                  jumlah_perbaikan = Verifikasi.where(:status_pengiriman => 3).count
+                %>
+                <li><%= link_to "Data Baru (#{jumlah_data_baru})", :controller => :verifikasis, :id => "new" %></li>
+                <li><%= link_to "Data Perbaikan Verifikasi (#{jumlah_perbaikan})", :controller => :verifikasis, :id => "perbaikan" %></li>
+                <li><%= link_to "Data Siap Dikirim (#{jumlah_siap_kirim})", :controller => :verifikasis, :id => "kirim" %></li>
+              </ul>
+            </li>
+            <li><span>Laporan</span>
+              <ul>
+                <li><%= link_to 'Data Sukses Terverifikasi', :controller => :verifikasis, :id => "valid" %></li>
+                <li><%= link_to 'Data Gagal Terverifikasi', :controller => :verifikasis, :id => "invalid" %></li>
+              </ul>
+            </li>
+            <li><span>Administrator</span>
+              <ul>
+                <li><span>Function</span>
+                  <ul>
+                    <li><%= link_to 'Daftar Fungsi', functions_path %></li>
+                    <li><%= link_to 'Tipe User', user_types_path %></li>
+                  </ul>
+                </li>
+                <li><span>User</span>
+                  <ul>
+                    <li><%= link_to 'Buat Baru', new_user_path %></li>
+                    <li><%= link_to 'Lihat', users_path %></li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li><span>Lainnya</span>
+              <ul>
+                <li><span style="cursor: pointer" onclick="window.location='<%= url_for(:controller => "users", :action => "form_change_password", :id => current_user.id) %>' ">Rubah Password</span></li>
+                <li><span style="cursor: pointer" onclick="return popup('/Help-Portal/index.html', 'Paduan', 1000, 500)">Panduan</span></li>
+                <li><span style="cursor: pointer" onclick="return popup('/main/about/new', 'About', 500, 155)">About</span></li>
+                <li><span style="cursor: pointer" onclick="window.location='/logout'" >Keluar</span></li>
+              </ul>
+            </li>
+          <% if super_admin? %>
+            <li><%= link_to "Test Plant", :controller => "test_plants" %></li>
+          <% end %>
+          </ul>
+        </div>
+<div style="float: right">
+
+</div>
+<div style="clear: both"></div>
+
+<%else%>
+<%end%>

@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Kode:</b>
+  <%= @instalasi_layanan.kode %>
+</p>
+
+<p>
+  <b>Nama:</b>
+  <%= @instalasi_layanan.nama %>
+</p>
+
+<p>
+  <b>Iduser:</b>
+  <%= @instalasi_layanan.iduser %>
+</p>
+
+
+<%= link_to 'Edit', edit_instalasi_layanan_path(@instalasi_layanan) %> |
+<%= link_to 'Back', instalasi_layanans_path %>

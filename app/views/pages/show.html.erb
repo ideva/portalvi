@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @page.name %>
+</p>
+
+<p>
+  <b>Is active:</b>
+  <%= @page.is_active %>
+</p>
+
+<p>
+  <b>Parent page:</b>
+  <%= @page.parent_page %>
+</p>
+
+<p>
+  <b>Is home page:</b>
+  <%= @page.is_home_page %>
+</p>
+
+<p>
+  <b>Order page:</b>
+  <%= @page.order_page %>
+</p>
+
+
+<%= link_to 'Edit', edit_page_path(@page) %> |
+<%= link_to 'Back', pages_path %>

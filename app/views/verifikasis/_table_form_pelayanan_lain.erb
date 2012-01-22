@@ -1,0 +1,113 @@
+<%
+
+  if (verifikasi_pelayanan_lain.id.nil? rescue true)
+    verifikasi_pelayanan_lain = VerifikasiPelayananLain.new
+  else
+    @verifikasi_pelayanan_lain = verifikasi_pelayanan_lain
+    #@verifikasi = @verifikasi_pemeriksaan.kode_verifikasi
+  end
+%>
+<tr id="tr_pelayanan_lain_<%= no  %>">
+  <%if controller.action_name == "show" %>
+    <td>
+      <%= no %>
+      <%= hidden_field "verifikasi_pelayanan_lain#{no}", :kode, :value => (@verifikasi_pelayanan_lain.kode rescue ''), :class => "", :size => 1 %>
+    </td>
+     <td>
+      <%= @verifikasi_pelayanan_lain.tgl_pelayanan_lain rescue '' %>
+    </td>
+    <td>
+      <%= @verifikasi_pelayanan_lain.nama_pelayanan_lain rescue '' %>
+    </td>
+    <td>
+      <%= @verifikasi_pelayanan_lain.jumlah_pelayanan_lain rescue '' %>
+    </td>
+    <td>
+      <%= @verifikasi_pelayanan_lain.harga_satuan rescue '' %>
+    </td>
+  <%else%>
+    <td>
+      <%= no %>
+      <%= hidden_field "verifikasi_pelayanan_lain#{no}", :kode, :value => (@verifikasi_pelayanan_lain.kode rescue ''), :class => "", :size => 1 %>
+    </td>
+    <td>
+      <%= text_field "verifikasi_pelayanan_lain#{no}",:tgl_pelayanan_lain, :value => (@verifikasi_pelayanan_lain.tgl_pelayanan_lain rescue ''),
+      :size => 10, :class => "required" %>
+    </td>
+    <td>
+      <%= text_field "verifikasi_pelayanan_lain#{no}",:nama_pelayanan_lain, :value => (@verifikasi_pelayanan_lain.nama_pelayanan_lain rescue ''),
+      :size => 10, :class => "required" %>
+    </td>
+    <td>
+      <%= text_field "verifikasi_pelayanan_lain#{no}",:jumlah_pelayanan_lain, :value => (@verifikasi_pelayanan_lain.jumlah_pelayanan_lain rescue ''),
+      :size => 10, :class => "required number" %>
+    </td>
+    <td>
+      <%= text_field "verifikasi_pelayanan_lain#{no}",:harga_satuan, :value => (@verifikasi_pelayanan_lain.harga_satuan rescue ''),
+      :size => 10, :class => "required number" %>
+    </td>
+  <%end%>
+  
+  <%if (status_verifikasi > 0 rescue false)%>   
+       <td>
+        <%= @verifikasi_pelayanan_lain.status_verifikasi %>
+      </td>
+      <td>
+        <% a = @verifikasi_pelayanan_lain.alasan_verifikasi.alasan rescue "-"%>
+        <%
+          if a.length > 10
+            cut = a[0..10]+"..."
+          else
+            cut = a
+          end
+        %>
+        <label title="<%= a %>"><%= cut %></label>
+      </td>
+      <td>
+        <% a = @verifikasi_pelayanan_lain.komentar.to_s rescue "-"%>
+        <%
+          if a.length > 10
+            cut = a[0..10]+"..."
+          else
+            cut = a
+          end
+        %>
+        <label title="<%= a %>"><%= cut %></label>
+      </td>
+    <%else%>
+      <td>
+        -
+      </td>
+      <td>
+        -
+      </td>
+      <td>
+        -
+      </td>
+      <td>
+        -
+      </td>
+    <%end%>
+<%unless controller.action_name == "show" %>
+  <td>
+    <%if @is_show %>
+    <%else%>
+
+    <% if (@verifikasi_pelayanan_lain.id.nil? rescue true)%>
+      <%= link_to (image_tag 'delete.png', :style => "width: 20px", :title => "Hapus"), "",
+             :onclick => "var r=confirm('Apakah anda yakin untuk menghapus item ini?'); if (r==true){jQuery('#tr_pelayanan_lain_#{no}').remove();return false;}else{return false;}" %>
+    <%else%>
+      <%= link_to (image_tag 'delete.png', :style => "width: 20px", :title => "Hapus"),
+                "/penerimaan_details/destroy/#{@verifikasi_pelayanan_lain.id}?no=#{no}",
+                 :confirm => "Apakah anda yakin untuk menghapus item ini?", :remote => true, :onclick => "ajax_call_back(this); $('counter').value = $('counter').value - 1;" %>
+    <%end%>
+    <span style="display: none" id="loading<%=no%>"><%= image_tag 'loading.gif' %></span>
+    <%end%>
+  </td>
+<%end%>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $( "#verifikasi_pelayanan_lain<%=no%>_tgl_pelayanan_lain" ).datepicker( { dateFormat: 'dd-mm-yy', changeMonth: true, changeYear: true, showOtherMonths: true, selectOtherMonths: true } );
+      });
+    </script>
+  </tr>

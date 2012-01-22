@@ -1,0 +1,103 @@
+<%
+
+  if (verifikasi_tindakan.id.nil? rescue true)
+    verifikasi_tindakan = VerifikasiTindakan.new
+  else
+    @verifikasi_tindakan = verifikasi_tindakan
+    #@verifikasi = @verifikasi_pemeriksaan.kode_verifikasi
+  end
+%>
+<tr id="tr_tindakan_<%= no  %>">
+  <%if controller.action_name == "show" %>
+    <td>
+      <%= no %>
+      <%= hidden_field "verifikasi_tindakan#{no}", :kode, :value => (@verifikasi_tindakan.kode rescue ''), :class => "", :size => 1 %>
+    </td>
+    <td>
+      <%= @verifikasi_tindakan.tgl_t_medis rescue '' %>
+    </td>
+    <td>
+      <%= @verifikasi_tindakan.tindakan_medi.nama rescue ''%>
+    </td>
+    <td>
+      <%= @verifikasi_tindakan.jumlah_t_medis rescue '' %>
+    </td>
+  <%else%>
+    <td>
+      <%= no %>
+      <%= hidden_field "verifikasi_tindakan#{no}", :kode, :value => (@verifikasi_tindakan.kode rescue ''), :class => "", :size => 1 %>
+    </td>
+    <td>
+      <%= text_field "verifikasi_tindakan#{no}",:tgl_t_medis, :value => (@verifikasi_tindakan.tgl_t_medis rescue ''),
+      :size => 10, :class => "required" %>
+    </td>
+    <td>
+      <%= collection_select "verifikasi_tindakan#{no}",:kode_t_medis, TindakanMedi.order("kode"), :kode, :nama, {:prompt => true, :selected => ( @verifikasi_tindakan.kode_t_medis rescue '') },
+      :class => "required", :style => "width:225px" %>
+    </td>
+    <td>
+      <%= text_field "verifikasi_tindakan#{no}",:jumlah_t_medis, :value => (@verifikasi_tindakan.jumlah_t_medis rescue ''),
+      :size => 10, :class => "required number" %>
+    </td>
+  <%end%>
+  
+  <%if (status_verifikasi > 0 rescue false)%>
+      <td>
+        <%= @verifikasi_tindakan.status_verifikasi %>
+      </td>
+      <td>
+        <% a = @verifikasi_tindakan.alasan_verifikasi.alasan rescue "-"%>
+        <%
+          if a.length > 10
+            cut = a[0..10]+"..."
+          else
+            cut = a
+          end
+        %>
+        <label title="<%= a %>"><%= cut %></label>
+      </td>
+      <td>
+        <% a = @verifikasi_tindakan.komentar.to_s rescue "-"%>
+        <%
+          if a.length > 10
+            cut = a[0..10]+"..."
+          else
+            cut = a
+          end
+        %>
+        <label title="<%= a %>"><%= cut %></label>
+      </td>
+    <%else%>
+      <td>
+        -
+      </td>
+      <td>
+        -
+      </td>
+      <td>
+        -
+      </td>
+    <%end%>
+<%unless controller.action_name == "show" %>
+  <td>
+    <%if @is_show %>
+    <%else%>
+
+    <% if (@verifikasi_tindakan.id.nil? rescue true)%>
+      <%= link_to (image_tag 'delete.png', :style => "width: 20px", :title => "Hapus"), "",
+             :onclick => "var r=confirm('Apakah anda yakin untuk menghapus item ini?'); if (r==true){jQuery('#tr_tindakan_#{no}').remove();return false;}else{return false;}" %>
+    <%else%>
+      <%= link_to (image_tag 'delete.png', :style => "width: 20px", :title => "Hapus"),
+                "/penerimaan_details/destroy/#{@verifikasi_tindakan.id}?no=#{no}",
+                 :confirm => "Apakah anda yakin untuk menghapus item ini?", :remote => true, :onclick => "ajax_call_back(this); $('counter').value = $('counter').value - 1;" %>
+    <%end%>
+    <span style="display: none" id="loading<%=no%>"><%= image_tag 'loading.gif' %></span>
+    <%end%>
+  </td>
+<%end%>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $( "#verifikasi_tindakan<%=no%>_tgl_t_medis" ).datepicker( { dateFormat: 'dd-mm-yy', changeMonth: true, changeYear: true, showOtherMonths: true, selectOtherMonths: true } );
+      });
+    </script>
+  </tr>

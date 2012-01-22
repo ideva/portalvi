@@ -1,0 +1,43 @@
+<div id="fake_form" >
+  <%= form_for(:perserta_jkbms, :url => {:action => :sent_to_vi, :id => "new"},
+                :html => {:id => "kirim_data_to_vi", :class => "simple_form"}) do %>
+  <%end%>
+</div>
+
+<h1>Data Peserta JKBM</h1>
+
+<table>
+  <tr>
+    <th style="text-align: left">
+      <input type="checkbox" id="master_check_box" onclick="check_box_toggle_class(this, 'child_check_box')"/>
+    </th>
+    <th>No Klaim</th>
+    <th>No. EJKBM</th>
+    <th>NIK</th>
+    <th>Nama Pasien</th>
+    <th>Status</th>
+    <th></th>
+    <th></th>
+    
+  </tr>
+
+<% @peserta_jkbms.each do |peserta_jkbm| %>
+  <tr>
+    <td>
+      <input type="checkbox" name="check_box[]" value="<%=peserta_jkbm.kode%>" class="child_check_box"/>
+    </td>
+    <td><%= peserta_jkbm.kode %></td>
+    <td><%= peserta_jkbm.no_ejkbm %></td>
+    <td><%= peserta_jkbm.nik %></td>  
+    <td><%= peserta_jkbm.nama_pasien %></td>
+    <td><%= peserta_jkbm.status_data %></td>
+    <td><%= link_to 'Lihat', peserta_jkbm %></td>
+    <td><%= link_to 'Ubah', edit_peserta_jkbm_path(peserta_jkbm) %></td>
+    <%#= link_to 'Destroy', peserta_jkbm, :confirm => 'Are you sure?', :method => :delete %>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%#= link_to 'New Peserta jkbm', new_peserta_jkbm_path %>

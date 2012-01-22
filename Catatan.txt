@@ -1,0 +1,2 @@
+1. Pastikan untuk mengimport data mapping pada folder Mapping_CSV ke database SIM VI
+2. Pastikan untuk menyesuaikan URL WS SIM VI dan URL WS EJKBM (mengambil data kepersetaan)

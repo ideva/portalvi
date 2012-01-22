@@ -1,0 +1,160 @@
+<h2>Data Pasien</h2>
+<div class="" style="float: left; margin-right: 100px">
+    <p>
+      <b>Kode:</b>
+      <%= @verifikasi.kode %>
+    </p>
+    <p>
+      <b>Nama Pasien:</b>
+      <%= @verifikasi.nama_pasien == ""? "-" : @verifikasi.nama_pasien %>
+      <%= hidden_field :verifikasi,:nama_pasien %>
+    </p>
+    <!--<p>
+      <b>Nomor Pelayanan:</b>
+      <%#= @verifikasi.no_pelayanan %>
+      <%#= hidden_field :verifikasi, :no_pelayanan %>
+    </p>-->
+    <p>
+      <b>No. KK:</b>
+      <%= @verifikasi.no_kk == ""? "-" : @verifikasi.no_kk%>
+      <%= hidden_field :verifikasi, :no_kk %>
+    </p>
+    <p>
+      <b>No. NIK:</b>
+      <%= @verifikasi.nik  == ""? "-" : @verifikasi.nik%>
+      <%= hidden_field :verifikasi,:nik %>
+    </p>
+    <p>
+      <b>No. KTP:</b>
+      <%= @verifikasi.ktp  == ""? "-" : @verifikasi.ktp%>
+      <%= hidden_field :verifikasi,:ktp %>
+    </p>
+  </div>
+
+  <div style="float: left; margin-right: 100px">
+     <p>
+      <b>No. EJKBM:</b>
+      <%= @verifikasi.no_ejkbm %>
+      <%= hidden_field :verifikasi,:no_ejkbm %>
+    </p>
+    <p>
+      <b>Alamat:</b>
+      <%= @verifikasi.alamat %>
+      <%= hidden_field :verifikasi,:alamat %>
+    </p>
+    <!--<p>
+      <b>Kabupaten:</b>
+      <%#= @verifikasi.kode_kabupaten %>
+      <%#= hidden_field :verifikasi,:kode_kabupaten %>
+    </p>
+    <p>
+      <b>Tanggal Masuk:</b>
+      <%#= @verifikasi.tgl_masuk.to_date %>
+      <%#=l(@verifikasi.tgl_masuk.to_time, :format => :ind) rescue ''%>
+      <%#= hidden_field :verifikasi,:tgl_masuk %>
+
+    </p>-->
+  </div>
+
+
+
+<div class="" style="float: left; margin-right: 0px">
+  <p>
+  <b>Status Verifikasi:</b>
+  <%= @verifikasi.status_verifikasi_text %>
+  </p>
+  <% if @verifikasi.status_verifikasi == 2 || @verifikasi.status_verifikasi == 3 %>
+   <p>
+    <b>Komentar:</b>
+    <%= @verifikasi.komentar rescue '' %>
+   </p>
+  <%end%>
+</div>
+
+<div style="clear: both"></div>
+
+  <div style="">
+    <hr/>
+    <div class="" style="float: left; margin-right: 100px">
+      <p>
+        <b>Tanggal Masuk:</b>
+        <%= @verifikasi.tgl_masuk.to_date.strftime("%d-%m-%Y") rescue '' %>
+      </p>
+      <p>
+        <b>Tanggal Keluar:</b>
+        <%= @verifikasi.tgl_keluar.to_date.strftime("%d-%m-%Y") rescue '' %>
+      </p>
+      <p>
+        <b>No. RM:</b>
+        <%= @verifikasi.norm rescue '' %>
+      </p>
+      <p>
+        <b>Dokter:</b>
+        <%= @verifikasi.dokter rescue '' %>
+      </p>
+    </div>
+    <div class="right" style="">
+      <p>
+        <b>Jenis Pelayanan:</b>
+        <%=  @verifikasi.jenis_pelayanan.nama %>
+      </p>
+      <p>
+        <b>Instalasi Pelayanan:</b>
+          <% @verifikasi.instalasi_layanan.nama rescue '' %>
+      </p>
+      <p>
+        <b>Keluhan:</b>
+        <%= @verifikasi.keluhan rescue '' %>
+      </p>
+      <p>
+        <b>Keluhan:</b>
+        <%= @verifikasi.keluhan rescue '' %>
+      </p>
+      <p>
+        <b>Diagnosa ICD:</b>
+        <%= @verifikasi.diagnosa_icd rescue '' %>
+      </p>
+    </div>
+    <div style="clear: both"></div>
+  </div>
+
+
+<h2>Pemeriksaan</h2>
+<div class="" style="width: auto">
+    <%= render :partial => "verifikasis/tabel_pemeriksaan", :locals => {:kode_verifikasi => (@verifikasi.kode rescue nil), :status_verifikasi => (@verifikasi.status_verifikasi.to_i rescue 0)} %>
+</div>
+
+<h2>Obat</h2>
+<div class="" style="width: auto">
+    <%= render :partial => "verifikasis/tabel_obat", :locals => {:kode_verifikasi => (@verifikasi.kode rescue nil), :status_verifikasi => (@verifikasi.status_verifikasi.to_i rescue 0) } %>
+</div>
+
+<h2>Tindakan</h2>
+<div class="" style="width: auto">
+    <%= render :partial => "verifikasis/tabel_tindakan", :locals => {:kode_verifikasi => (@verifikasi.kode rescue nil), :status_verifikasi => (@verifikasi.status_verifikasi.to_i rescue 0) } %>
+</div>
+
+<h2>Tindakan Penunjang</h2>
+<div class="" style="width: auto">
+    <%= render :partial => "verifikasis/tabel_tindakan_penunjang", :locals => {:kode_verifikasi => (@verifikasi.kode rescue nil), :status_verifikasi => (@verifikasi.status_verifikasi.to_i rescue 0) } %>
+</div>
+
+<h2>Pelayanan Lain</h2>
+<div class="" style="width: auto">
+    <%= render :partial => "verifikasis/tabel_pelayanan_lain", :locals => {:kode_verifikasi => (@verifikasi.kode rescue nil), :status_verifikasi => (@verifikasi.status_verifikasi.to_i rescue 0) } %>
+</div>
+
+  <div class="actions">
+    <%#= f.submit %>
+  </div>
+
+
+  </div>
+  <div class="right" style="float: right; width: 550px">
+    <%#= render :partial => "verifikasis/data_obat_and_tindakan" %>
+  </div>
+  <div style="clear: both"></div>
+
+
+
+

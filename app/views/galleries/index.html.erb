@@ -1,0 +1,33 @@
+<h1>Listing galleries</h1>
+
+<table>
+  <tr>
+    <th>Image</th>
+    <th>Remote image url</th>
+    <th>Caption</th>
+    <th>Idalbum</th>
+    <th>Idblog</th>
+    <th>Iduser</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @galleries.each do |gallery| %>
+  <tr>
+    <td><%= gallery.image %></td>
+    <td><%= gallery.remote_image_url %></td>
+    <td><%= gallery.caption %></td>
+    <td><%= gallery.idalbum %></td>
+    <td><%= gallery.idblog %></td>
+    <td><%= gallery.iduser %></td>
+    <td><%= link_to 'Show', gallery %></td>
+    <td><%= link_to 'Edit', edit_gallery_path(gallery) %></td>
+    <td><%= link_to 'Destroy', gallery, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Gallery', new_gallery_path %>

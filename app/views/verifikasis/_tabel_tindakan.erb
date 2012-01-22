@@ -1,0 +1,83 @@
+<div style="overflow: auto; border: 1px solid black;-moz-box-shadow: 0 0 5px #888; -webkit-box-shadow: 0 0 5px#888; box-shadow: 0 0 5px #888;">
+
+<table style="text-align: center">
+  <tr>
+    <th>No</th>
+    <th style="width : 100px">Tanggal</th>
+    <th style="width : 225px">Nama</th>
+    <th>Jumlah Tindakan</th>
+    <th>Status Verifikasi</th>
+    <th>Alasan</th>
+    <th>Komentar</th>
+    <%unless controller.action_name == "show" %>
+      <th></th>
+    <%end%>
+  </tr>
+  <% if (kode_verifikasi.nil? rescue true) %>
+     <%
+          @counter_tindakan = 0
+          row = 1
+          for i in 1..row do
+          verifikasi_tindakan = VerifikasiTindakan.new
+          #verifikasi_tindakan.kode_t_medis_rs = nil
+          #verifikasi_pemeriksaan.jumlah = nil
+          @counter_tindakan = @counter_tindakan + 1
+        %>
+          <%= render :partial => "verifikasis/table_form_tindakan", :locals => {:no => @counter_tindakan, :verifikasi_tindakan => verifikasi_tindakan} %>
+       <%end%>
+  <%else%>
+        <%
+          @counter_tindakan = 0
+          verifikasi_tindakans = VerifikasiTindakan.where(:kode_verifikasi => kode_verifikasi, :flag => 1)
+          verifikasi_tindakans.each do |verifikasi_tindakan|
+            @counter_tindakan = @counter_tindakan + 1
+        %>
+          <%= render :partial => "verifikasis/table_form_tindakan", :locals => {:no => @counter_tindakan, :verifikasi_tindakan => verifikasi_tindakan, :status_verifikasi => status_verifikasi} %>
+        <%end%>
+  <%end%>
+
+      <tr id="new_baris_tindakan">
+        <% if (verifikasi_tindakans.empty? rescue false) %>
+          <td colspan="1000">Data tidak tersedia</td>
+        <%end%>
+      </tr>
+</table>
+
+  <input type="hidden" id="counter_tindakan" name="counter_tindakan" value="<%= @counter_tindakan rescue 1 %>"/>
+
+  </div>
+<%unless controller.action_name == "show" %>
+  <div style="cursor: pointer; width: 110px; margin: 10px;" onclick="tambah_baris_tindakan()" class="button">
+  <div style="float: left; margin-right: 5px">
+    <%= image_tag 'add.png', :style => "width: 20px", :title => "Tambah Baris" %>
+  </div>
+  <div style="float: left; padding-top: 3px">
+    Tambah Baris
+  </div>
+  <div style="clear: both"></div>
+</div>
+<%end%>
+
+<script type="text/javascript">
+  function tambah_baris_tindakan(){
+    $.ajax({
+      url: "/verifikasis/add_new_list_tindakan/new",
+      dataType: "text",// "text/script/json",
+      data: {
+        authenticity_token: encodeURIComponent('<%= u form_authenticity_token %>'),
+        counter_tindakan: $('#counter_tindakan').val()
+      },
+      beforeSend: function(data) {
+        jQuery('#loading_body').toggle();
+      },
+      success: function(data) {
+        $(data).insertBefore('#new_baris_tindakan');
+        $('#counter_tindakan').val( parseInt($('#counter_tindakan').val()) + 1 );
+        make_table_tr_color();
+      },
+      complete: function(data) {
+        jQuery('#loading_body').toggle();
+      }
+    });
+  }
+</script>

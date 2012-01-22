@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Image:</b>
+  <%= @gallery.image %>
+</p>
+
+<p>
+  <b>Remote image url:</b>
+  <%= @gallery.remote_image_url %>
+</p>
+
+<p>
+  <b>Caption:</b>
+  <%= @gallery.caption %>
+</p>
+
+<p>
+  <b>Idalbum:</b>
+  <%= @gallery.idalbum %>
+</p>
+
+<p>
+  <b>Idblog:</b>
+  <%= @gallery.idblog %>
+</p>
+
+<p>
+  <b>Iduser:</b>
+  <%= @gallery.iduser %>
+</p>
+
+
+<%= link_to 'Edit', edit_gallery_path(@gallery) %> |
+<%= link_to 'Back', galleries_path %>

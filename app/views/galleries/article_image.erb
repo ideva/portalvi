@@ -1,0 +1,12 @@
+<%
+  @galleries.each do |object_photo|
+%>
+
+  <div class="thumb_horizontal fix_image_thumb">
+      <%= image_tag(object_photo.image_url(:thumb),
+                  :class => "as_link", :title => object_photo.caption,
+                  :onclick => "window.opener.CKEDITOR.tools.callFunction('#{params[:CKEditorFuncNum]}','#{object_photo.image_url()}','');window.close();") %>
+  </div>
+<%end%>
+<div style="clear: both"></div>
+ <%= will_paginate @galleries%>
